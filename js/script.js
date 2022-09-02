@@ -53,7 +53,7 @@
 	//imagem
 	var img = new Image();
 	img.addEventListener('load',loadHandler,false);
-	img.src = "img/Dentista.png";
+	img.src = "Dentista (1).png";
 	assetsToLoad.push(img);
 	//contador de recursos
 	var loadedAssets = 0;
