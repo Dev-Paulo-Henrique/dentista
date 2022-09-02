@@ -244,7 +244,7 @@
 	
 	//criação dos mísseis
 	function fireMissile(){
-		var missile = new Sprite(150,0,25,25,defender.centerX() - 10,defender.y - 13);
+		var missile = new Sprite(200,0,25,25,defender.centerX() - 10,defender.y - 13);
 		missile.vy = -8;
 		sprites.push(missile);
 		missiles.push(missile);
