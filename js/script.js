@@ -23,7 +23,7 @@
 	
 	//sprites
 	//cenário
-	var background = new Sprite(0,56,400,480,0,0);
+	var background = new Sprite(0,56,400,450,0,0);
 	sprites.push(background);
 	
 	//nave
