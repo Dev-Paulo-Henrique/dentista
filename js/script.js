@@ -23,11 +23,11 @@
 	
 	//sprites
 	//cenário
-	var background = new Sprite(0,56,400,450,0,0);
+	var background = new Sprite(0,56,400,400,0,0);
 	sprites.push(background);
 	
 	//nave
-	var defender = new Sprite(0,0,30,50,185,450);
+	var defender = new Sprite(0,0,30,100,185,450);
 	sprites.push(defender);
 	
 	//mensagem da tela inicial
