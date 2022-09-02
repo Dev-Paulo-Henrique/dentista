@@ -18,7 +18,7 @@
 	var shots = 0;
 	var hits = 0;
 	var acuracy = 0;
-	var scoreToWin = 70;
+	var scoreToWin = 100;
 	var FIRE = 0, EXPLOSION = 1;
 	
 	//sprites
