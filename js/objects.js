@@ -38,8 +38,8 @@ var Alien = function(sourceX,sourceY,width,height,x,y){
 Alien.prototype = Object.create(Sprite.prototype);
 
 Alien.prototype.explode = function(){
-	this.sourceX = 190;
-	this.width = this.height = 75;
+	this.sourceX = 115;
+	this.width = this.height = 60;
 }
 
 var ObjectMessage = function(y,text,color){

@@ -27,25 +27,25 @@
 	sprites.push(background);
 	
 	//nave
-	var defender = new Sprite(30,0,30,100,185,380);
+	var defender = new Sprite(0,0,40,100,185,380);
 	sprites.push(defender);
 	
 	//mensagem da tela inicial
-	var startMessage = new ObjectMessage(cnv.height/2,"PRESSIONE ENTER","#f00");
+	var startMessage = new ObjectMessage(cnv.height/2,"PRESSIONE ENTER","#fff");
 	messages.push(startMessage);
 	
 	//mensagem de pausa
-	var pausedMessage = new ObjectMessage(cnv.height/2,"PAUSE","#f00");
+	var pausedMessage = new ObjectMessage(cnv.height/2,"PAUSE","#ff");
 	pausedMessage.visible = false;
 	messages.push(pausedMessage);
 	
 	//mensagem de game over
-	var gameOverMessage = new ObjectMessage(cnv.height/2,"","#f00");
+	var gameOverMessage = new ObjectMessage(cnv.height/2,"","#fff");
 	gameOverMessage.visible = false;
 	messages.push(gameOverMessage);
 	
 	//placar
-	var scoreMessage = new ObjectMessage(10,"","#f00");
+	var scoreMessage = new ObjectMessage(10,"","#fff");
 	scoreMessage.font = "normal bold 15px emulogic";
 	updateScore();
 	messages.push(scoreMessage);
@@ -243,7 +243,7 @@
 	
 	//criação dos mísseis
 	function fireMissile(){
-		var missile = new Sprite(280,25,75,60,defender.centerX() - 20,defender.y - 13);
+		var missile = new Sprite(180,0,35,50,defender.centerX() - 20,defender.y - 13);
 		missile.vy = -8;
 		sprites.push(missile);
 		missiles.push(missile);
@@ -257,7 +257,7 @@
 		//divide o canvas em 8 colunas para o posicionamento aleatório do alien
 		var alienPosition = (Math.floor(Math.random() * 8)) * 50;
 		
-		var alien = new Alien(100,0,75,75,alienPosition,-50);
+		var alien = new Alien(50,0,65,75,alienPosition,-50);
 		alien.vy = 1;
 		
 		//otimização do alien
