@@ -1,18 +1,96 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-<meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<link rel="shortcut icon" href="https://media-private.canva.com/0emh8/MAFLCA0emh8/1/t.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJWF6QO3UH4PAAJ6Q%2F20220902%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220902T025222Z&X-Amz-Expires=57307&X-Amz-Signature=b402293505469ea2044868c7da3152b87d0379edc9bfdbef85c43d0be7069d2f&X-Amz-SignedHeaders=host&response-expires=Fri%2C%2002%20Sep%202022%2018%3A47%3A29%20GMT" type="image/x-icon" />	
-<title>Anticárie</title>
-<link rel="stylesheet" type="text/css" href="css/style.css">
-</head>
-<body style="background:#000">
-	<div style="width: 400px; height: 466px; position: relative; margin: 0 auto; border: solid; background-color: #fff; top: 50px;">
-		<canvas width="400" height="466"></canvas>
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <link
+      rel="shortcut icon"
+      href="https://media-private.canva.com/0emh8/MAFLCA0emh8/1/t.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJWF6QO3UH4PAAJ6Q%2F20220902%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220902T025222Z&X-Amz-Expires=57307&X-Amz-Signature=b402293505469ea2044868c7da3152b87d0379edc9bfdbef85c43d0be7069d2f&X-Amz-SignedHeaders=host&response-expires=Fri%2C%2002%20Sep%202022%2018%3A47%3A29%20GMT"
+      type="image/x-icon"
+    />
+	<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <title>Anticárie</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+  </head>
+  <body style="background: #000; display: flex; flex-direction: column; align-items: center; font-family: 'emulogic'">
+	<div class="dividir" style="display: flex; justify-content: space-between">
+    <div
+      style="
+        width: 400px;
+        height: 466px;
+        position: relative;
+        margin: 0 100px 0 auto;
+        border: solid;
+        background-color: #fff;
+        top: 50px;
+      "
+    >
+      <canvas width="400" height="466"></canvas>
+    </div>
+      <div
+        style="
+          width: 400px;
+          height: 466px;
+          color: #fff;
+          position: relative;
+          margin: 0 auto;
+          border: solid;
+          top: 50px;
+        "
+      >
+        <h1 for="Record">Record</h1>
+		Pontos: 
+        <label for="Record" id="record-pontos"></label>
+        <br />
+		Taxa de acertos: 
+        <label for="Record" id="record-taxa"></label>
+        <br />
+		Tentativas: 
+        <label for="Record" id="record-tentativas"></label>
+        <br />
+		Level: 
+        <label for="Record" id="record-level"></label>
+		<br>
+		<br>
+		<br>
+		-------------------------
+		<br>
+		<br>
+		<h1 for="Info">Info</h1>
+		Pontos: 
+        <label for="Info" id="info-pontos">Carregando...</label>
+		<br />
+		Taxa de acertos: 
+		<label for="Info" id="info-taxa">Carregando...</label>
+		<br />
+		Tentativas: 
+		<label for="Info" id="info-tentativas">Carregando...</label>
+		<br />
+		Level: 
+		<label for="Info" id="info-level">Carregando...</label>
 	</div>
-	<audio id="music" src="sound/music.ogg" type="audio/ogg" loop autoplay></audio>
-	<script src="js/objects.js"></script>
-	<script src="js/collision.js"></script>
-	<script src="js/script.js"></script>
-</body>
+</div>
+	<div class="controls" id="game-buttons" style="align-items: center; margin-top: 100px">
+		<button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/time.png" alt="" srcset="" id="time"></button>
+		<button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/left.png" alt="" srcset="" id="left"></button>
+		<button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/circle.png" alt="" srcset="" id="circle"></button>
+		<button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/right.png" alt="" srcset="" id="right"></button>
+		<button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/power.png" alt="" srcset="" id="power"></button>
+    <div class="choose" style="display: flex; justify-content: center; margin-top: 25px">
+      <button class="controlButton" style="cursor: pointer; background: transparent; border: none">
+        <img src="img/controls/play.png" alt="" srcset="" id="choose" onclick="toggleFullScreen()">
+      </button>
+    </div>
+	</div>
+    <audio
+      id="music"
+      src="sound/music.ogg"
+      type="audio/ogg"
+      loop
+      autoplay
+    ></audio>
+    <script src="js/controls.js"></script>
+    <script src="js/objects.js"></script>
+    <script src="js/collision.js"></script>
+    <script src="js/script.js"></script>
+  </body>
 </html>

@@ -9,14 +9,19 @@
 	var sprites = [];
 	var assetsToLoad = [];
 	var missiles = [];
+	var bombs = [];
+	var booms = [];
 	var aliens = [];
 	var messages = [];
 	
 	//variáveis úteis
-	var alienFrequency = 100;
+	var alienFrequency = 200;
 	var alienTimer = 0;
 	var shots = 0;
 	var hits = 0;
+	var level = 1;
+	var finish = 3;
+	var use = 250;
 	var acuracy = 0;
 	var scoreToWin = 100;
 	var FIRE = 0, EXPLOSION = 1;
@@ -35,7 +40,7 @@
 	messages.push(startMessage);
 	
 	//mensagem de pausa
-	var pausedMessage = new ObjectMessage(cnv.height/2,"PAUSE","#ff");
+	var pausedMessage = new ObjectMessage(cnv.height/2,"PAUSE","#fff");
 	pausedMessage.visible = false;
 	messages.push(pausedMessage);
 	
@@ -60,14 +65,16 @@
 	
 	
 	//entradas
-	var LEFT = 37, RIGHT = 39, ENTER = 13, SPACE = 32;
+	var LEFT = 37, RIGHT = 39, ENTER = 13, UP = 38, C = 67, SPACE = 32;
 	
 	//ações
-	var mvLeft = mvRight = shoot = spaceIsDown = false;
+	var mvLeft = mvRight = shoot = shooter = Cshoot = spaceIsDown = false;
 	
 	//estados do jogo
 	var LOADING = 0, PLAYING = 1, PAUSED = 2, OVER = 3;
 	var gameState = LOADING;
+
+	
 	
 	//listeners
 	window.addEventListener('keydown',function(e){
@@ -78,6 +85,12 @@
 				break;
 			case RIGHT:
 				mvRight = true;
+				break;
+			case UP:
+				shooter = true;
+				break;
+			case C:
+				Cshoot = true;
 				break;
 			case SPACE:
 				if(!spaceIsDown){
@@ -97,15 +110,22 @@
 			case RIGHT:
 				mvRight = false;
 				break;
+			case UP:
+				mvRight = false;
+				break;
 			case ENTER:
 				if(gameState !== OVER){
 					if(gameState !== PLAYING){
 						gameState = PLAYING;
 						startMessage.visible = false;
 						pausedMessage.visible = false;
+						toggleFullScreen()
+						$('#choose').attr('src', 'img/controls/pause.png');
 					} else {
 						gameState = PAUSED;
 						pausedMessage.visible = true;
+						toggleFullScreen()
+						$('#choose').attr('src', 'img/controls/play.png');
 					}
 				}
 				break;
@@ -113,7 +133,6 @@
 				spaceIsDown = false;
 		}
 	},false);
-	
 	
 	//FUNÇÕES =================================================================>
 	function loadHandler(){
@@ -124,6 +143,7 @@
 			gameState = PAUSED;
 		}
 	}
+
 	
 	function loop(){
 		requestAnimationFrame(loop, cnv);
@@ -137,10 +157,57 @@
 				break;
 			case OVER:
 				endGame();
+				setTimeout(function(){
+					location.reload();
+				},3000);
 				break;
 		}
 		render();
 	}
+
+	$('#left').mousedown(()=>{
+		mvLeft = true
+	}).mouseup(()=>{
+		mvLeft = false
+	})
+	$('#circle').mousedown(()=>{
+		shoot = true
+	}).mouseup(()=>{
+		shoot = false
+	})
+	$('#right').mousedown(()=>{
+		mvRight = true
+	}).mouseup(()=>{
+		mvRight = false
+	})
+	$('#power').mousedown(()=>{
+		shooter = true
+	}).mouseup(()=>{
+		setTimeout(()=>{
+			shooter = false;
+		},1000)
+		use--
+	})
+	$('#time').mousedown(()=>{
+		Cshoot = true
+	}).mouseup(()=>{
+		Cshoot = false
+	})
+	$('#choose').mousedown(()=>{
+		if(gameState !== OVER){
+			if(gameState !== PLAYING){
+				gameState = PLAYING;
+				startMessage.visible = false;
+				pausedMessage.visible = false;
+				$('#choose').attr('src', 'img/controls/pause.png');
+			} else {
+				gameState = PAUSED;
+				pausedMessage.visible = true;
+				$('#choose').attr('src', 'img/controls/play.png');
+			}
+		}
+	})
+	  
 	
 	function update(){
 		//move para a esquerda
@@ -164,6 +231,22 @@
 			shoot = false;
 		}
 		
+		//dispara o canhão
+		if(Cshoot){
+			fireBoom();
+			Cshoot = false;
+		}
+
+		if(shooter && level == 2 && use > 0){
+			fireBomb();
+			// shooter = true;
+			setTimeout(()=>{
+				shooter = false;
+			},1000)
+			use--
+		}
+
+
 		//atualiza a posição
 		defender.x = Math.max(0,Math.min(cnv.width - defender.width, defender.x + defender.vx));
 		
@@ -174,6 +257,30 @@
 			if(missile.y < -missile.height){
 				removeObjects(missile,missiles);
 				removeObjects(missile,sprites);
+				updateScore();
+				i--;
+			}
+		}
+		
+		//atualiza a posição das bombas
+		for(var i in bombs){
+			var bomb = bombs[i];
+			bomb.y += bomb.vy;
+			if(bomb.y < -bomb.height){
+				removeObjects(bomb,bombs);
+				removeObjects(bomb,sprites);
+				updateScore();
+				i--;
+			}
+		}
+		
+		//atualiza a posição das boom
+		for(var i in booms){
+			var boom = booms[i];
+			boom.y += boom.vy;
+			if(boom.y < -boom.height){
+				removeObjects(boom,booms);
+				removeObjects(boom,sprites);
 				updateScore();
 				i--;
 			}
@@ -206,7 +313,7 @@
 			}
 			
 			//confere se algum alien chegou à Terra
-			if(alien.y > cnv.height + alien.height){
+			if(alien.y == cnv.height + alien.height){
 				gameState = OVER;
 			}
 			
@@ -223,6 +330,7 @@
 				if(collide(missile,alien) && alien.state !== alien.EXPLODED){
 					destroyAlien(alien);
 					hits++;
+					use = use + Math.floor(Math.random() * 50)
 					updateScore();
 					if(parseInt(hits) === scoreToWin){
 						gameState = OVER;
@@ -238,15 +346,79 @@
 					i--;
 				}
 			}
+
+			//confere se algum alien foi destruido
+			for(var j in bombs){
+				var bomb = bombs[j];
+				if(collide(bomb,alien) && alien.state !== alien.EXPLODED){
+					destroyAlien(alien);
+					hits++;
+					updateScore();
+					if(parseInt(hits) === scoreToWin){
+						gameState = OVER;
+						//destroi todos os aliens
+						for(var k in aliens){
+							var alienk = aliens[k];
+							destroyAlien(alienk);
+						}
+					}
+					removeObjects(bomb,bombs);
+					removeObjects(bomb,sprites);
+					j--;
+					i--;
+				}
+			}
+
+			//confere se algum alien foi destruido
+			for(var j in booms){
+				var boom = booms[j];
+				if(collide(boom,alien) && alien.state !== alien.EXPLODED){
+					destroyAlien(alien);
+					hits++;
+					updateScore();
+					if(parseInt(hits) === scoreToWin){
+						gameState = OVER;
+						//destroi todos os aliens
+						for(var k in aliens){
+							var alienk = aliens[k];
+							destroyAlien(alienk);
+						}
+					}
+					removeObjects(boom,booms);
+					removeObjects(boom,sprites);
+					j--;
+					i--;
+				}
+			}
 		}//fim da movimentação dos aliens
 	}//fim do update
 	
 	//criação dos mísseis
 	function fireMissile(){
-		var missile = new Sprite(180,0,35,50,defender.centerX() - 20,defender.y - 13);
+		var missile = new Sprite(180,0,40,50,defender.centerX() - 20,defender.y - 13);
 		missile.vy = -8;
 		sprites.push(missile);
 		missiles.push(missile);
+		playSound(FIRE);
+		shots++;
+	}
+	
+	//criação dos bomba
+	function fireBomb(){
+		var bomb = new Sprite(310,25,50,30,defender.centerX() - 20,defender.y - 13);
+		bomb.vy = -25;
+		sprites.push(bomb);
+		bombs.push(bomb);
+		playSound(FIRE);
+		shots++;
+	}
+	
+	//criação dos bomba
+	function fireBoom(){
+		var boom = new Sprite(180,50,50,35,defender.centerX() - 20,defender.y - 13);
+		boom.vy = -1;
+		sprites.push(boom);
+		booms.push(boom);
 		playSound(FIRE);
 		shots++;
 	}
@@ -257,7 +429,7 @@
 		//divide o canvas em 8 colunas para o posicionamento aleatório do alien
 		var alienPosition = (Math.floor(Math.random() * 8)) * 50;
 		
-		var alien = new Alien(50,0,65,75,alienPosition,-50);
+		var alien = new Alien(50,0,70,75,alienPosition,-50);
 		alien.vy = 1;
 		
 		//otimização do alien
@@ -315,8 +487,65 @@
 		if(hits.length < 2){
 			hits = "0" + hits;
 		}
-		scoreMessage.text = "Pontos: " + hits 
-		// + " - Precisao: " + acuracy + "%";
+
+		$( "#record-pontos" ).css( "color", "#0f0" ).text( localStorage.getItem('Pontos') );
+		$( "#record-taxa" ).css( "color", "#0f0" ).text( localStorage.getItem('Taxa') ).append('%');
+		$( "#record-tentativas" ).css( "color", "#0f0" ).text( localStorage.getItem('Tentativas') );
+		$( "#record-level" ).css( "color", "#0f0" ).text( localStorage.getItem('Level') );
+		///////////////////////////////////////////////////////////
+		$( "#info-pontos" ).css( "color", "red" ).text( hits );
+		$( "#info-taxa" ).css( "color", "red" ).text( acuracy + '%' );
+		$( "#info-tentativas" ).css( "color", "red" ).text( shots );
+		$( "#info-level" ).css( "color", "red" ).text( level );
+		
+		// / / / / / / / / / / / / / / / / / / / / / 
+
+		if(hits > localStorage.getItem('Pontos')){
+			localStorage.setItem('Pontos', hits)
+		}
+		if(acuracy > localStorage.getItem('Taxa')){
+			localStorage.setItem('Taxa', acuracy)
+		}
+		if(shots > localStorage.getItem('Tentativas')){
+			localStorage.setItem('Tentativas', shots)
+		}
+		if(level > localStorage.getItem('Level')){
+			localStorage.setItem('Level', level)
+		}
+
+
+		//Levels
+		if(hits >= 25 && hits < 50){
+			level = 2
+			if(hits == 25){
+				gameOverMessage.text = "Level 2";
+				gameOverMessage.visible = true;
+				setTimeout(() => {
+					gameOverMessage.visible = false;
+				}, 2000);
+			}
+		} else if(hits >= 50 && hits < 75){
+			level = 3
+			if(hits == 50){
+				gameOverMessage.text = "Level 3";
+				gameOverMessage.visible = true;
+				setTimeout(() => {
+					gameOverMessage.visible = false;
+				}, 2000);
+			}
+		} else if(hits >= 75 && hits < 100){
+			level = 4
+			if(hits == 75){
+				gameOverMessage.text = "Level 4";
+				gameOverMessage.visible = true;
+				setTimeout(() => {
+					gameOverMessage.visible = false;
+				}, 2000);
+			}
+		}
+
+		scoreMessage.text = "Level: " + level + "     Pontos: " + hits;
+		//+ " - Precisao: " + acuracy + "%";
 	}
 	
 	//função de game over
@@ -328,9 +557,6 @@
 			gameOverMessage.color = "#00f";
 		}
 		gameOverMessage.visible = true;
-		setTimeout(function(){
-			location.reload();
-		},3000);
 	}
 	
 	//efeitos sonoros do jogo
@@ -395,3 +621,24 @@
 	
 	
 }());
+
+function toggleFullScreen() {
+	if ((document.fullScreenElement && document.fullScreenElement !== null) ||    
+	 (!document.mozFullScreen && !document.webkitIsFullScreen)) {
+	  if (document.documentElement.requestFullScreen) {  
+		document.documentElement.requestFullScreen();  
+	  } else if (document.documentElement.mozRequestFullScreen) {  
+		document.documentElement.mozRequestFullScreen();  
+	  } else if (document.documentElement.webkitRequestFullScreen) {  
+		document.documentElement.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);  
+	  }  
+	} else {  
+	  if (document.cancelFullScreen) {  
+		document.cancelFullScreen();  
+	  } else if (document.mozCancelFullScreen) {  
+		document.mozCancelFullScreen();  
+	  } else if (document.webkitCancelFullScreen) {  
+		document.webkitCancelFullScreen();  
+	  }  
+	}  
+  } 
