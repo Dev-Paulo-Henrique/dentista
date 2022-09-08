@@ -10,7 +10,6 @@
 	var assetsToLoad = [];
 	var missiles = [];
 	var bombs = [];
-	var booms = [];
 	var aliens = [];
 	var messages = [];
 	
@@ -230,12 +229,6 @@
 			fireMissile();
 			shoot = false;
 		}
-		
-		//dispara o canhão
-		if(Cshoot){
-			fireBoom();
-			Cshoot = false;
-		}
 
 		if(shooter && level == 2 && use > 0){
 			fireBomb();
@@ -269,18 +262,6 @@
 			if(bomb.y < -bomb.height){
 				removeObjects(bomb,bombs);
 				removeObjects(bomb,sprites);
-				updateScore();
-				i--;
-			}
-		}
-		
-		//atualiza a posição das boom
-		for(var i in booms){
-			var boom = booms[i];
-			boom.y += boom.vy;
-			if(boom.y < -boom.height){
-				removeObjects(boom,booms);
-				removeObjects(boom,sprites);
 				updateScore();
 				i--;
 			}
@@ -368,28 +349,6 @@
 					i--;
 				}
 			}
-
-			//confere se algum alien foi destruido
-			for(var j in booms){
-				var boom = booms[j];
-				if(collide(boom,alien) && alien.state !== alien.EXPLODED){
-					destroyAlien(alien);
-					hits++;
-					updateScore();
-					if(parseInt(hits) === scoreToWin){
-						gameState = OVER;
-						//destroi todos os aliens
-						for(var k in aliens){
-							var alienk = aliens[k];
-							destroyAlien(alienk);
-						}
-					}
-					removeObjects(boom,booms);
-					removeObjects(boom,sprites);
-					j--;
-					i--;
-				}
-			}
 		}//fim da movimentação dos aliens
 	}//fim do update
 	
@@ -412,17 +371,7 @@
 		playSound(FIRE);
 		shots++;
 	}
-	
-	//criação dos bomba
-	function fireBoom(){
-		var boom = new Sprite(180,50,50,35,defender.centerX() - 20,defender.y - 13);
-		boom.vy = -1;
-		sprites.push(boom);
-		booms.push(boom);
-		playSound(FIRE);
-		shots++;
-	}
-	
+
 	//cração de aliens
 	function makeAlien(){
 		//cria um valor aleatório entre 0 e 7 => largura do canvas / largura do alien
@@ -503,9 +452,9 @@
 		if(hits > localStorage.getItem('Pontos')){
 			localStorage.setItem('Pontos', hits)
 		}
-		if(acuracy > localStorage.getItem('Taxa')){
+		// if(acuracy > localStorage.getItem('Taxa')){
 			localStorage.setItem('Taxa', acuracy)
-		}
+		// }
 		if(shots > localStorage.getItem('Tentativas')){
 			localStorage.setItem('Tentativas', shots)
 		}

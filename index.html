@@ -11,7 +11,7 @@
     <title>Anticárie</title>
     <link rel="stylesheet" type="text/css" href="css/style.css" />
   </head>
-  <body style="background: #000; display: flex; flex-direction: column; align-items: center; font-family: 'emulogic'">
+  <body style="background: #000; overflow-y: hidden; display: flex; flex-direction: column; align-items: center; font-family: 'emulogic'">
 	<div class="dividir" style="display: flex; justify-content: space-between">
     <div
       style="
@@ -21,7 +21,7 @@
         margin: 0 100px 0 auto;
         border: solid;
         background-color: #fff;
-        top: 50px;
+        top: 25px;
       "
     >
       <canvas width="400" height="466"></canvas>
@@ -34,7 +34,7 @@
           position: relative;
           margin: 0 auto;
           border: solid;
-          top: 50px;
+          top: 25px;
         "
       >
         <h1 for="Record">Record</h1>
@@ -69,18 +69,15 @@
 		<label for="Info" id="info-level">Carregando...</label>
 	</div>
 </div>
-	<div class="controls" id="game-buttons" style="align-items: center; margin-top: 100px">
-		<button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/time.png" alt="" srcset="" id="time"></button>
-		<button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/left.png" alt="" srcset="" id="left"></button>
-		<button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/circle.png" alt="" srcset="" id="circle"></button>
-		<button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/right.png" alt="" srcset="" id="right"></button>
-		<button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/power.png" alt="" srcset="" id="power"></button>
-    <div class="choose" style="display: flex; justify-content: center; margin-top: 25px">
-      <button class="controlButton" style="cursor: pointer; background: transparent; border: none">
-        <img src="img/controls/play.png" alt="" srcset="" id="choose" onclick="toggleFullScreen()">
-      </button>
-    </div>
+	<div class="controls" id="game-buttons" style="align-items: center; margin-top: 75px;">
+    <button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/left.png" alt="" srcset="" style="width: 100px" id="left"></button>
+		<button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/circle.png" alt="" srcset="" style="width: 100px" id="circle"></button>
+		<button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/right.png" alt="" srcset=""  style="width: 100px" id="right"></button>
 	</div>
+  <div class="options" style="align-items: center;">
+    <button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/play.png" alt="" srcset="" style="width: 100px" id="choose" onclick="toggleFullScreen()"></button>
+    <button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/power.png" alt="" srcset=""  style="width: 100px" id="power"></button>
+  </div>
     <audio
       id="music"
       src="sound/music.ogg"
