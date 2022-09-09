@@ -164,35 +164,50 @@
 		render();
 	}
 
-	$('#left').mousedown(()=>{
+	$('#left').click(()=>{
 		mvLeft = true
-	}).mouseup(()=>{
-		mvLeft = false
+		setTimeout(()=>{
+			mvLeft = false;
+		},100)
 	})
-	$('#circle').mousedown(()=>{
-		shoot = true
-	}).mouseup(()=>{
-		shoot = false
+	// $('#left').click(()=>{
+	// 	mvLeft = true
+	// })
+	// .mouseup(()=>{
+	// 	mvLeft = false
+	// })
+	$('#circle').click(()=>{
+		// shoot = true
+		fireMissile()
+		// setTimeout(()=>{
+		// 	shoot = false;
+		// },10)
 	})
-	$('#right').mousedown(()=>{
+	// .mouseup(()=>{
+	// 	shoot = false
+	// })
+	$('#right').click(()=>{
 		mvRight = true
-	}).mouseup(()=>{
-		mvRight = false
+		setTimeout(()=>{
+			mvRight = false;
+		},100)
 	})
-	$('#power').mousedown(()=>{
+	// .mouseup(()=>{
+	// 	mvRight = false
+	// })
+	$('#power').click(()=>{
 		shooter = true
-	}).mouseup(()=>{
 		setTimeout(()=>{
 			shooter = false;
 		},1000)
-		use--
 	})
-	$('#time').mousedown(()=>{
-		Cshoot = true
-	}).mouseup(()=>{
-		Cshoot = false
-	})
-	$('#choose').mousedown(()=>{
+	// .mouseup(()=>{
+	// 	setTimeout(()=>{
+	// 		shooter = false;
+	// 	},1000)
+	// 	use--
+	// })
+	$('#choose').click(()=>{
 		if(gameState !== OVER){
 			if(gameState !== PLAYING){
 				gameState = PLAYING;
