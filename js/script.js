@@ -164,7 +164,7 @@
 		render();
 	}
 
-	$('#left').click(()=>{
+	$('#left').keypress(()=>{
 		mvLeft = true
 		setTimeout(()=>{
 			mvLeft = false;
@@ -186,7 +186,7 @@
 	// .mouseup(()=>{
 	// 	shoot = false
 	// })
-	$('#right').click(()=>{
+	$('#right').keypress(()=>{
 		mvRight = true
 		setTimeout(()=>{
 			mvRight = false;
