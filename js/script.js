@@ -322,7 +322,7 @@
 			}
 			
 			//confere se algum alien chegou à Terra
-			if(alien.y == cnv.height - 60){
+			if(alien.y == cnv.height - 50){
 				// gameState = OVER;
 				life = life-1
 				if(life == 2){
