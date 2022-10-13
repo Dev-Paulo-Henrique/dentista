@@ -24,6 +24,7 @@
 	var acuracy = 0;
 	var scoreToWin = 100;
 	var FIRE = 0, EXPLOSION = 1;
+	var life = 3;
 	
 	//sprites
 	//cenário
@@ -33,6 +34,18 @@
 	//nave
 	var defender = new Sprite(0,0,40,100,185,380);
 	sprites.push(defender);
+
+	//coração 1
+	var heart1 = new Sprite(220,30,30,25,5,5);
+	sprites.push(heart1);
+
+	//coração 2
+	var heart2 = new Sprite(220,30,30,25,15,5);
+	sprites.push(heart2);
+
+	//coração 1
+	var heart3 = new Sprite(220,30,30,25,25,5);
+	sprites.push(heart3);
 	
 	//mensagem da tela inicial
 	var startMessage = new ObjectMessage(cnv.height/2,"PRESSIONE ENTER","#fff");
@@ -151,10 +164,10 @@
 			case LOADING:
 				console.log('CARREGANDO...');
 				break;
-			case PLAYING:
-				update();
-				break;
-			case OVER:
+				case PLAYING:
+					update();
+					break;
+				case OVER:
 				endGame();
 				setTimeout(function(){
 					location.reload();
@@ -309,8 +322,20 @@
 			}
 			
 			//confere se algum alien chegou à Terra
-			if(alien.y == cnv.height + alien.height){
-				gameState = OVER;
+			if(alien.y == cnv.height - 60){
+				// gameState = OVER;
+				life = life-1
+				if(life == 2){
+					removeObjects(heart3,sprites);
+				}else if(life == 1){
+					removeObjects(heart3,sprites);
+					removeObjects(heart2,sprites);
+				}else{
+					removeObjects(heart3,sprites);
+					removeObjects(heart2,sprites);
+					removeObjects(heart1,sprites);
+					gameState = OVER
+				}
 			}
 			
 			//confere se algum alien colidiu com a nave
@@ -508,7 +533,7 @@
 			}
 		}
 
-		scoreMessage.text = "Level: " + level + "     Pontos: " + hits;
+		scoreMessage.text = "     Level: " + level + "   Pontos: " + hits;
 		//+ " - Precisao: " + acuracy + "%";
 	}
 	
@@ -561,29 +586,6 @@
 	}
 	
 	loop();
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }());
 
 function toggleFullScreen() {
