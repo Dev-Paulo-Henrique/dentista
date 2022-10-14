@@ -243,7 +243,7 @@ try {
 	
 	function update(){
 		//move para a esquerda
-		if(mvLeft && !mvRight || Math.sign(eixoX)){
+		if(mvLeft && !mvRight || Math.sign(eixoX) == 1){
 			defender.vx = -5;
 		}
 		
