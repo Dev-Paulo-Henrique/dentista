@@ -3,9 +3,7 @@
 	const accelerometer = new Accelerometer({ frequency: 60 });
 
 	accelerometer.addEventListener("reading", (e) => {
-	  alert(`Acceleration along the X-axis ${accelerometer.x}`);
-	  alert(`Acceleration along the Y-axis ${accelerometer.y}`);
-	  alert(`Acceleration along the Z-axis ${accelerometer.z}`);
+	  eixoX = accelerometer.x;
 	});
 	accelerometer.start();
 
