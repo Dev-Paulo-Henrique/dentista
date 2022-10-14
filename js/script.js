@@ -14,7 +14,7 @@
 	var messages = [];
 	
 	//variáveis úteis
-	var alienFrequency = 200;
+	var alienFrequency = 150;
 	var alienTimer = 0;
 	var shots = 0;
 	var hits = 0;
@@ -183,43 +183,21 @@
 			mvLeft = false;
 		},100)
 	})
-	// $('#left').click(()=>{
-	// 	mvLeft = true
-	// })
-	// .mouseup(()=>{
-	// 	mvLeft = false
-	// })
 	$('#circle').click(()=>{
-		// shoot = true
 		fireMissile()
-		// setTimeout(()=>{
-		// 	shoot = false;
-		// },10)
 	})
-	// .mouseup(()=>{
-	// 	shoot = false
-	// })
 	$('#right').click(()=>{
 		mvRight = true
 		setTimeout(()=>{
 			mvRight = false;
 		},100)
 	})
-	// .mouseup(()=>{
-	// 	mvRight = false
-	// })
 	$('#power').click(()=>{
 		shooter = true
 		setTimeout(()=>{
 			shooter = false;
 		},1000)
 	})
-	// .mouseup(()=>{
-	// 	setTimeout(()=>{
-	// 		shooter = false;
-	// 	},1000)
-	// 	use--
-	// })
 	$('#choose').click(()=>{
 		if(gameState !== OVER){
 			if(gameState !== PLAYING){
@@ -256,15 +234,6 @@
 		if(shoot){
 			fireMissile();
 			shoot = false;
-		}
-
-		if(shooter && level == 2 && use > 0){
-			fireBomb();
-			// shooter = true;
-			setTimeout(()=>{
-				shooter = false;
-			},1000)
-			use--
 		}
 
 
@@ -401,24 +370,27 @@
 		playSound(FIRE);
 		shots++;
 	}
-	
-	//criação dos bomba
-	function fireBomb(){
-		var bomb = new Sprite(310,25,50,30,defender.centerX() - 20,defender.y - 13);
-		bomb.vy = -25;
-		sprites.push(bomb);
-		bombs.push(bomb);
-		playSound(FIRE);
-		shots++;
-	}
 
 	//cração de aliens
 	function makeAlien(){
 		//cria um valor aleatório entre 0 e 7 => largura do canvas / largura do alien
 		//divide o canvas em 8 colunas para o posicionamento aleatório do alien
-		var alienPosition = (Math.floor(Math.random() * 8)) * 50;
+		var alienPosition = (Math.floor(Math.random() * 7)) * 50;
 		
-		var alien = new Alien(50,0,70,75,alienPosition,-50);
+		if(Math.floor(Math.random() * 11) % 2 == 0 && level > 1){
+			if(Math.floor(Math.random() * 11) % 2 == 0 && level > 2){
+				if(Math.floor(Math.random() * 11) % 2 == 0 && level > 3){
+					var alien = new Alien(280,0,35,60,alienPosition,-50);//coca
+				}else{
+					var alien = new Alien(250,0,30,75,alienPosition,-50);//picole
+				}
+			}else{
+				var alien = new Alien(315,0,45,60,alienPosition,-50);//bolo
+			}
+			// var alien = new Coca(0,0,50,75,alienPosition,-50);
+		}else{
+			var alien = new Alien(50,0,70,55,alienPosition,-50);//carie
+		}
 		alien.vy = 1;
 		
 		//otimização do alien
@@ -533,7 +505,7 @@
 			}
 		}
 
-		scoreMessage.text = "     Level: " + level + "   Pontos: " + hits;
+		scoreMessage.text = "    Level: " + level + "   Pontos: " + hits + " ";
 		//+ " - Precisao: " + acuracy + "%";
 	}
 	
@@ -543,7 +515,7 @@
 			gameOverMessage.text = "PERDEU!";
 		} else {
 			gameOverMessage.text = "GANHOU!";
-			gameOverMessage.color = "#00f";
+			// gameOverMessage.color = "#fff";
 		}
 		gameOverMessage.visible = true;
 	}
