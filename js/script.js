@@ -11,8 +11,8 @@ try {
       alert('Cannot connect to the sensor.');
     }
   };
-  accelerometer.onreading = (e) => {
-    eixoX = e;
+  accelerometer.onreading = () => {
+    eixoX = accelerometer.y;
   };
   accelerometer.start();
 } catch (error) {
