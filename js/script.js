@@ -1,6 +1,6 @@
 (function(){
 	let accelerometer = null;
-	var eixoX;
+	var eixoX = 0;
 try {
   accelerometer = new Accelerometer({ frequency: 10 });
   accelerometer.onerror = (event) => {
