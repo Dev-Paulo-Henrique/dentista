@@ -1,30 +1,13 @@
 (function(){
-	let accelerometer = null;
 	var eixoX = 0;
-try {
-  accelerometer = new Accelerometer({ frequency: 10 });
-  accelerometer.onerror = (event) => {
-    // Lide com os erros de tempo de execução.
-    if (event.error.name === 'NotAllowedError') {
-      alert('Permission to access sensor was denied.');
-    } else if (event.error.name === 'NotReadableError') {
-      alert('Cannot connect to the sensor.');
-    }
-  };
-  accelerometer.onreading = () => {
-    eixoX = accelerometer.y;
-  };
-  accelerometer.start();
-} catch (error) {
-  // Lide com os erros de construção.
-  if (error.name === 'SecurityError') {
-    alert('Sensor construction was blocked by the Permissions Policy.');
-  } else if (error.name === 'ReferenceError') {
-    alert('Sensor is not supported by the User Agent.');
-  } else {
-    throw error;
-  }
-}
+	const accelerometer = new Accelerometer({ frequency: 60 });
+
+	accelerometer.addEventListener("reading", (e) => {
+	  alert(`Acceleration along the X-axis ${accelerometer.x}`);
+	  alert(`Acceleration along the Y-axis ${accelerometer.y}`);
+	  alert(`Acceleration along the Z-axis ${accelerometer.z}`);
+	});
+	accelerometer.start();
 
 	//canvas
 	var cnv = document.querySelector('canvas');
@@ -46,7 +29,6 @@ try {
 	var shots = 0;
 	var hits = 0;
 	var level = 1;
-	var finish = 3;
 	var use = 250;
 	var acuracy = 0;
 	var scoreToWin = 100;
