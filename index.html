@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
   <head>
     <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <meta name="viewport" content= "width=device-width, user-scalable=no">
+    <meta http-equiv="https://057e-45-171-96-76.ngrok.io" content="IE=Edge">
     <link
       rel="shortcut icon"
       href="https://media-private.canva.com/0emh8/MAFLCA0emh8/1/t.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAJWF6QO3UH4PAAJ6Q%2F20220902%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20220902T025222Z&X-Amz-Expires=57307&X-Amz-Signature=b402293505469ea2044868c7da3152b87d0379edc9bfdbef85c43d0be7069d2f&X-Amz-SignedHeaders=host&response-expires=Fri%2C%2002%20Sep%202022%2018%3A47%3A29%20GMT"
@@ -13,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
   </head>
   <body style="background: #000; overflow-y: hidden; display: flex; flex-direction: column; align-items: center; font-family: 'emulogic'">
-	<div class="dividir" style="display: flex; justify-content: space-between">
+	<!-- <div class="dividir" style="display: flex; justify-content: center"> -->
     <div
       style="
         width: 400px;
@@ -22,18 +23,18 @@
         margin: 0 auto;
         border: solid;
         background-color: #fff;
-        top: 25px;
+        top: 100px;
       "
     >
-      <canvas width="400" height="466"></canvas>
-      <div class="controls" id="game-buttons" style="align-items: center; margin-top: 25px; display: flex; justify-content: center">
+      <canvas width="400" height="466" id="circle"></canvas>
+      <!-- <div class="controls" id="game-buttons" style="align-items: center; margin-top: 25px; display: flex; justify-content: center">
     <button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/left.png" alt="" srcset="" style="width: 100px" id="left"></button>
 		<button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/circle.png" alt="" srcset="" style="width: 100px" id="circle"></button>
 		<button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/right.png" alt="" srcset=""  style="width: 100px" id="right"></button>
-	</div>
-  <div class="options" style="align-items: center;display: flex; justify-content: center">
+	</div> -->
+  <div class="options" style="align-items: center;display: flex; justify-content: center; margin-top: 50px">
     <button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/play.png" alt="" srcset="" style="width: 100px" id="choose" onclick="toggleFullScreen()"></button>
-    <button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/power.png" alt="" srcset=""  style="width: 100px" id="power"></button>
+    <!-- <button class="controlButton" style="cursor: pointer; background: transparent; border: none"><img src="img/controls/power.png" alt="" srcset=""  style="width: 100px" id="power"></button> -->
   </div>
     </div>
       <!-- <div
@@ -78,7 +79,7 @@
 		Level: 
 		<label for="Info" id="info-level">Carregando...</label>
 	</div> -->
-</div>
+<!-- </div> -->
     <audio
       id="music"
       src="sound/music.ogg"
